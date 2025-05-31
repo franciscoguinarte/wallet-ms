@@ -18,7 +18,7 @@ A microservice developed as part of a technical challenge to manage user wallets
 
 ## 🛠️ Tech Stack
 
-- Java 17
+- Java 21
 - Spring Boot 3.x
 - Spring Web
 - Spring Data JPA
@@ -55,8 +55,7 @@ br.com.recargapay.walletservice
 
 ### Prerequisites
 
-- Java 17+
-- Maven 3.8+
+- Java 21+
 
 ### Run Locally
 

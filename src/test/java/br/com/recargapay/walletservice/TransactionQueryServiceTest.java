@@ -29,7 +29,7 @@ class TransactionQueryServiceTest {
     void setUp() {
         walletRepository = mock(WalletRepository.class);
         transactionRepository = mock(TransactionRepository.class);
-        transactionQueryService = new TransactionQueryService(walletRepository, transactionRepository);
+        transactionQueryService = new TransactionQueryService(transactionRepository);
     }
 
     @Test

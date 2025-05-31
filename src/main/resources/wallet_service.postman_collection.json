@@ -22,16 +22,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"owner\": \"João da Silva\"\n}"
+							"raw": "{\n  \"owner\": \"Carteir2\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/wallets",
+							"raw": "http://localhost:8080/api/wallets",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
 								"wallets"
 							]
 						}
@@ -44,13 +45,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/wallets/{{walletId}}/balance",
+							"raw": "http://localhost:8080/api/wallets/{{walletId}}/balance",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
 								"wallets",
 								"{{walletId}}",
 								"balance"
@@ -76,7 +78,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"walletId\": \"{{walletId}}\",\n  \"amount\": 100.00\n}"
+							"raw": "{\n  \"sourceWalletId\": \"{{walletId}}\",\n  \"amount\": 100\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/transactions/deposit",
@@ -106,16 +108,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"walletId\": \"{{walletId}}\",\n  \"amount\": 50.00\n}"
+							"raw": "{\n  \"sourceWalletId\": \"{{walletId}}\",\n  \"amount\": 20.00\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/transactions/withdraw",
+							"raw": "http://localhost:8080/api/transactions/withdraw",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
+								"api",
 								"transactions",
 								"withdraw"
 							]
@@ -164,7 +167,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/wallets/123e4567-e89b-12d3-a456-426614174000/balance-at?min=2024-05-01T00:00:00&max=2024-05-31T23:59:59",
+							"raw": "http://localhost:8080/api/wallets/:walletId/statement?min=2025-05-30T11:00:00&max=2025-05-31T23:59:59",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -173,17 +176,23 @@
 							"path": [
 								"api",
 								"wallets",
-								"123e4567-e89b-12d3-a456-426614174000",
-								"balance-at"
+								":walletId",
+								"statement"
 							],
 							"query": [
 								{
 									"key": "min",
-									"value": "2024-05-01T00:00:00"
+									"value": "2025-05-30T11:00:00"
 								},
 								{
 									"key": "max",
-									"value": "2024-05-31T23:59:59"
+									"value": "2025-05-31T23:59:59"
+								}
+							],
+							"variable": [
+								{
+									"key": "walletId",
+									"value": "c58de7c3-d93a-445e-9abd-0b93d71594ca"
 								}
 							]
 						},
