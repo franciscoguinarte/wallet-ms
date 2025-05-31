@@ -7,9 +7,12 @@ import br.com.recargapay.walletservice.entity.Wallet;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class TransactionFactory {
+public final class TransactionFactory {
 
-    public static Transaction createDeposit(Wallet sourceWallet, BigDecimal amount, BigDecimal balanceAfter) {
+    private TransactionFactory() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    }
+    public static Transaction createDeposit(final Wallet sourceWallet, final BigDecimal amount, final BigDecimal balanceAfter) {
         return Transaction.builder()
                 .type(TransactionType.DEPOSIT)
                 .sourceWallet(sourceWallet)
@@ -19,7 +22,7 @@ public class TransactionFactory {
                 .build();
     }
 
-    public static Transaction createWithdraw(Wallet sourceWallet, BigDecimal amount, BigDecimal balanceAfter) {
+    public static Transaction createWithdraw(final Wallet sourceWallet, final BigDecimal amount, final BigDecimal balanceAfter) {
         return Transaction.builder()
                 .type(TransactionType.WITHDRAWAL)
                 .sourceWallet(sourceWallet)
@@ -29,8 +32,8 @@ public class TransactionFactory {
                 .build();
     }
 
-    public static Transaction createTransfer(Wallet sourceWallet, Wallet destinationWallet,
-                                             BigDecimal amount, BigDecimal balanceAfter) {
+    public static Transaction createTransfer(final Wallet sourceWallet, final  Wallet destinationWallet,
+                                             final  BigDecimal amount, final  BigDecimal balanceAfter) {
         return Transaction.builder()
                 .type(TransactionType.TRANSFER)
                 .sourceWallet(sourceWallet)

@@ -1,7 +1,6 @@
 package br.com.recargapay.walletservice.service.command;
 
 import br.com.recargapay.walletservice.dto.in.WalletRequest;
-import br.com.recargapay.walletservice.dto.out.WalletResponse;
 import br.com.recargapay.walletservice.entity.Wallet;
 import br.com.recargapay.walletservice.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +16,9 @@ public class WalletCommandService {
 
     private final WalletRepository walletRepository;
 
-    public Wallet createWallet(WalletRequest request) {
+    public Wallet createWallet(final WalletRequest request) {
         log.info("Creating wallet...");
-        Wallet wallet = Wallet.builder()
+        final Wallet wallet = Wallet.builder()
                 .owner(request.owner())
                 .balance(BigDecimal.ZERO)
                 .build();

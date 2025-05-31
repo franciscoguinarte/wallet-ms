@@ -31,12 +31,12 @@ class WalletConcurrencyWithdrawTest {
 
     @BeforeEach
     void setup() {
-        Wallet wallet = Wallet.builder()
+        final Wallet wallet = Wallet.builder()
                 .owner("test-user")
                 .balance(BigDecimal.valueOf(1000)) // saldo inicial alto para cobrir os saques
                 .build();
 
-        Wallet savedWallet = walletRepository.saveAndFlush(wallet);
+        final Wallet savedWallet = walletRepository.saveAndFlush(wallet);
         this.walletId = savedWallet.getId();
 
         System.out.println("[Setup] Wallet criada com ID: " + walletId + " e saldo inicial: " + savedWallet.getBalance());
@@ -44,11 +44,11 @@ class WalletConcurrencyWithdrawTest {
 
     @Test
     void shouldHandleConcurrentWithdrawsCorrectly() throws InterruptedException {
-        int numberOfThreads = 10;
-        BigDecimal withdrawAmount = new BigDecimal("10.00");
+        final  int numberOfThreads = 10;
+        final BigDecimal withdrawAmount = new BigDecimal("10.00");
 
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        CountDownLatch latch = new CountDownLatch(numberOfThreads);
+        final ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        final CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
         System.out.println("[Teste] Iniciando " + numberOfThreads + " threads para saques concorrentes...");
 
@@ -58,14 +58,13 @@ class WalletConcurrencyWithdrawTest {
                 System.out.println("[Thread " + threadNumber + "] Tentando saque de " + withdrawAmount);
 
                 try {
-                    // Buscar saldo antes do saque para log
-                    Wallet walletBefore = walletRepository.findById(walletId).orElseThrow();
+
+                    final Wallet walletBefore = walletRepository.findById(walletId).orElseThrow();
                     System.out.println("[Thread " + threadNumber + "] Saldo antes do saque: " + walletBefore.getBalance());
 
                     transactionCommandService.withdraw(walletId, withdrawAmount);
 
-                    // Buscar saldo depois do saque para log
-                    Wallet walletAfter = walletRepository.findById(walletId).orElseThrow();
+                    final Wallet walletAfter = walletRepository.findById(walletId).orElseThrow();
                     System.out.println("[Thread " + threadNumber + "] Saque concluído. Saldo após saque: " + walletAfter.getBalance());
 
                 } catch (Exception e) {
@@ -79,8 +78,8 @@ class WalletConcurrencyWithdrawTest {
         latch.await();
         executorService.shutdown();
 
-        Wallet updated = walletRepository.findById(walletId).orElseThrow();
-        BigDecimal expected = BigDecimal.valueOf(1000).subtract(withdrawAmount.multiply(BigDecimal.valueOf(numberOfThreads)));
+        final Wallet updated = walletRepository.findById(walletId).orElseThrow();
+        final BigDecimal expected = BigDecimal.valueOf(1000).subtract(withdrawAmount.multiply(BigDecimal.valueOf(numberOfThreads)));
 
         System.out.println("[Teste] Todos saques finalizados. Saldo esperado: " + expected + " | Saldo atual: " + updated.getBalance());
 

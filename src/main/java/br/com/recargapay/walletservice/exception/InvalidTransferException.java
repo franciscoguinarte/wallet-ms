@@ -2,7 +2,7 @@ package br.com.recargapay.walletservice.exception;
 
 public class InvalidTransferException extends RuntimeException {
 
-    public InvalidTransferException(String message) {
+    public InvalidTransferException(final String message) {
         super(message);
     }
 }

@@ -21,10 +21,10 @@ public class TransactionQueryService {
     private final TransactionRepository transactionRepository;
 
     @Transactional(readOnly = true)
-    public List<WalletHistoricalStatementResponse> getTransactionStatement(UUID walletId, LocalDateTime from, LocalDateTime to) {
+    public List<WalletHistoricalStatementResponse> getTransactionStatement(final UUID walletId, final LocalDateTime from, final LocalDateTime to) {
         log.info("Searching for transaction statement...");
 
-        List<Transaction> transactions = transactionRepository.findAllByWalletIdAndTimestampBetween(walletId, from, to);
+        final List<Transaction> transactions = transactionRepository.findAllByWalletIdAndTimestampBetween(walletId, from, to);
         return transactions.stream().map(WalletBalanceMapper::toResponse).toList();
     }
 

@@ -18,26 +18,26 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTransferException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidTransfer(InvalidTransferException ex) {
+    public ResponseEntity<ErrorResponse> handleInvalidTransfer(final InvalidTransferException ex) {
         log.error("Invalid transfer error: {}", ex.getMessage());
         return buildErrorResponse("Invalid transfer", ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InsufficientBalanceException.class)
-    public ResponseEntity<ErrorResponse> handleInsufficientFunds(InsufficientBalanceException ex) {
+    public ResponseEntity<ErrorResponse> handleInsufficientFunds(final InsufficientBalanceException ex) {
         log.error("Insufficient balance error: {}", ex.getMessage());
         return buildErrorResponse("Insufficient balance", ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(WalletNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleWalletNotFound(WalletNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleWalletNotFound(final WalletNotFoundException ex) {
         log.error("Wallet not found: {}", ex.getMessage());
         return buildErrorResponse("Wallet not found", ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
-        String message = ex.getBindingResult().getFieldErrors()
+    public ResponseEntity<ErrorResponse> handleValidation(final MethodArgumentNotValidException ex) {
+        final String message = ex.getBindingResult().getFieldErrors()
                 .stream()
                 .map(err -> err.getField() + ": " + err.getDefaultMessage())
                 .collect(Collectors.joining("; "));
@@ -46,13 +46,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGeneric(final Exception ex) {
         log.error("Unexpected error occurred: {}", ex.getMessage(), ex);
         return buildErrorResponse("Internal error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<ErrorResponse> buildErrorResponse(String error, String message, HttpStatus status) {
-        ErrorResponse response = new ErrorResponse(
+    private ResponseEntity<ErrorResponse> buildErrorResponse(final String error,final String message,final HttpStatus status) {
+        final ErrorResponse response = new ErrorResponse(
                 error,
                 message,
                 status.value(),

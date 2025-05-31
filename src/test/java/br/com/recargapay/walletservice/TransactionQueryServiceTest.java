@@ -33,16 +33,16 @@ class TransactionQueryServiceTest {
     }
 
     @Test
-    void getTransactionStatement_ShouldReturnMappedTransactions() {
-        UUID sourceWalletId = UUID.randomUUID();
-        UUID destinationWalletId = UUID.randomUUID();
-        Wallet sourceWallet = new Wallet();
-        Wallet destinationWallet = new Wallet();
+    void shouldReturnMappedTransactions() {
+        final UUID sourceWalletId = UUID.randomUUID();
+        final UUID destinationWalletId = UUID.randomUUID();
+        final Wallet sourceWallet = new Wallet();
+        final Wallet destinationWallet = new Wallet();
+
         sourceWallet.setId(sourceWalletId);
         destinationWallet.setId(destinationWalletId);
 
-
-        Transaction tx = Transaction.builder()
+       final Transaction transaction = Transaction.builder()
                 .timestamp(LocalDateTime.now())
                 .type(TransactionType.DEPOSIT)
                 .sourceWallet(sourceWallet)
@@ -52,9 +52,9 @@ class TransactionQueryServiceTest {
                 .build();
 
         when(walletRepository.findById(sourceWalletId)).thenReturn(Optional.of(sourceWallet));
-        when(transactionRepository.findAllByWalletIdAndTimestampBetween(eq(sourceWallet.getId()), any(), any())).thenReturn(List.of(tx));
+        when(transactionRepository.findAllByWalletIdAndTimestampBetween(eq(sourceWallet.getId()), any(), any())).thenReturn(List.of(transaction));
 
-        List<WalletHistoricalStatementResponse> dtos = transactionQueryService.getTransactionStatement(sourceWalletId,
+        final List<WalletHistoricalStatementResponse> dtos = transactionQueryService.getTransactionStatement(sourceWalletId,
                 LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1));
 
         assertEquals(1, dtos.size());

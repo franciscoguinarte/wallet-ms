@@ -29,9 +29,9 @@ class TransactionCommandServiceTest {
     }
 
     @Test
-    void deposit_ShouldUpdateBalanceAndCreateTransaction() {
-        UUID walletId = UUID.randomUUID();
-        Wallet wallet = new Wallet();
+    void shouldUpdateBalanceAndCreateDepositTransaction() {
+        final UUID walletId = UUID.randomUUID();
+        final Wallet wallet = new Wallet();
         wallet.setId(walletId);
         wallet.setBalance(BigDecimal.valueOf(100));
 
@@ -44,9 +44,9 @@ class TransactionCommandServiceTest {
     }
 
     @Test
-    void withdraw_ShouldUpdateBalanceAndCreateTransaction() {
-        UUID walletId = UUID.randomUUID();
-        Wallet wallet = new Wallet();
+    void shouldUpdateBalanceAndCreateWithdrawTransaction() {
+        final UUID walletId = UUID.randomUUID();
+        final Wallet wallet = new Wallet();
         wallet.setId(walletId);
         wallet.setBalance(BigDecimal.valueOf(100));
 
@@ -59,13 +59,14 @@ class TransactionCommandServiceTest {
     }
 
     @Test
-    void transfer_ShouldTransferBalanceBetweenWallets() {
-        UUID fromId = UUID.randomUUID();
-        UUID toId = UUID.randomUUID();
-        Wallet source = new Wallet();
+    void shouldTransferBalanceBetweenWallets() {
+        final UUID fromId = UUID.randomUUID();
+        final UUID toId = UUID.randomUUID();
+        final Wallet source = new Wallet();
+        final Wallet destination = new Wallet();
+
         source.setId(fromId);
         source.setBalance(BigDecimal.valueOf(100));
-        Wallet destination = new Wallet();
         destination.setId(toId);
         destination.setBalance(BigDecimal.valueOf(50));
 

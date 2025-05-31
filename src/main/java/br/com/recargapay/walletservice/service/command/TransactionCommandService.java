@@ -25,15 +25,15 @@ public class TransactionCommandService {
     private final WalletRepository walletRepository;
 
     @Transactional
-    public Transaction deposit(UUID walletId, BigDecimal amount) {
+    public Transaction deposit(final UUID walletId, final BigDecimal amount) {
         log.info("Starting deposit...");
-        Wallet wallet = walletRepository.findByIdWithLock(walletId)
+        final Wallet wallet = walletRepository.findByIdWithLock(walletId)
                 .orElseThrow(() -> new WalletNotFoundException(walletId.toString()));
 
-        BigDecimal balanceAfter = wallet.getBalance().add(amount);
+        final BigDecimal balanceAfter = wallet.getBalance().add(amount);
         wallet.setBalance(balanceAfter);
 
-        Transaction deposit = TransactionFactory.createDeposit(wallet, amount, balanceAfter);
+        final Transaction deposit = TransactionFactory.createDeposit(wallet, amount, balanceAfter);
         transactionRepository.save(deposit);
         log.info("Deposit was successful!");
 
@@ -41,20 +41,20 @@ public class TransactionCommandService {
     }
 
     @Transactional
-    public Transaction withdraw(UUID walletId, BigDecimal amount) {
+    public Transaction withdraw(final UUID walletId, final BigDecimal amount) {
         log.info("Starting withdraw...");
 
-        Wallet wallet = walletRepository.findByIdWithLock(walletId)
+        final Wallet wallet = walletRepository.findByIdWithLock(walletId)
                 .orElseThrow(() -> new WalletNotFoundException(walletId.toString()));
 
         if (wallet.getBalance().compareTo(amount) < 0) {
             throw new InsufficientBalanceException();
         }
 
-        BigDecimal balanceAfter = wallet.getBalance().subtract(amount);
+        final BigDecimal balanceAfter = wallet.getBalance().subtract(amount);
         wallet.setBalance(balanceAfter);
 
-        Transaction withdraw = TransactionFactory.createWithdraw(wallet, amount, balanceAfter);
+        final Transaction withdraw = TransactionFactory.createWithdraw(wallet, amount, balanceAfter);
         transactionRepository.save(withdraw);
         log.info("Withdraw was successful!");
 
@@ -62,28 +62,28 @@ public class TransactionCommandService {
     }
 
     @Transactional
-    public Transaction transfer(UUID toWalletId, UUID fromWalletId , BigDecimal amount) {
+    public Transaction transfer(final UUID toWalletId,final UUID fromWalletId, final BigDecimal amount) {
         log.info("Starting transfer...");
         if (fromWalletId.equals(toWalletId)) {
             throw new InvalidTransferException("Cannot transfer to the same wallet");
         }
 
-        Wallet destination = walletRepository.findByIdWithLock(toWalletId)
+        final Wallet destination = walletRepository.findByIdWithLock(toWalletId)
                 .orElseThrow(() -> new WalletNotFoundException("Destination wallet not found"));
-        Wallet source = walletRepository.findByIdWithLock(fromWalletId)
+        final Wallet source = walletRepository.findByIdWithLock(fromWalletId)
                 .orElseThrow(() -> new WalletNotFoundException("Source wallet not found"));
 
         if (source.getBalance().compareTo(amount) < 0) {
             throw new InsufficientBalanceException("Insufficient balance for transfer");
         }
 
-        BigDecimal sourceBalance = source.getBalance().subtract(amount);
-        BigDecimal destinationBalance = destination.getBalance().add(amount);
+        final BigDecimal sourceBalance = source.getBalance().subtract(amount);
+        final BigDecimal destinationBalance = destination.getBalance().add(amount);
 
         source.setBalance(sourceBalance);
         destination.setBalance(destinationBalance);
 
-        Transaction transfer = TransactionFactory.createTransfer(source, destination, amount, sourceBalance);
+        final Transaction transfer = TransactionFactory.createTransfer(source, destination, amount, sourceBalance);
         transactionRepository.save(transfer);
         log.info("Transfer was successful!");
 

@@ -4,9 +4,13 @@ import br.com.recargapay.walletservice.dto.out.WalletHistoricalStatementResponse
 import br.com.recargapay.walletservice.entity.Transaction;
 import br.com.recargapay.walletservice.enumeration.TransactionType;
 
-public class WalletBalanceMapper {
+public final class WalletBalanceMapper {
 
-    public static WalletHistoricalStatementResponse toResponse(Transaction transaction) {
+    private WalletBalanceMapper() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    }
+
+    public static WalletHistoricalStatementResponse toResponse(final Transaction transaction) {
         return new WalletHistoricalStatementResponse(
                 transaction.getSourceWallet().getId(),
                 transaction.getType(),

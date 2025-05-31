@@ -30,11 +30,11 @@ class WalletConcurrencyTest {
 
     @BeforeEach
     void setup() {
-        Wallet wallet = Wallet.builder()
+        final Wallet wallet = Wallet.builder()
                 .owner("test-user")
                 .build();
 
-        Wallet savedWallet = walletRepository.saveAndFlush(wallet);
+        final Wallet savedWallet = walletRepository.saveAndFlush(wallet);
         this.walletId = savedWallet.getId();
 
         System.out.println("[Setup] Wallet criada com ID: " + walletId + " e saldo inicial: " + savedWallet.getBalance());
@@ -42,11 +42,11 @@ class WalletConcurrencyTest {
 
     @Test
     void shouldHandleConcurrentDepositsCorrectly() throws InterruptedException {
-        int numberOfThreads = 10;
-        BigDecimal depositAmount = new BigDecimal("10.00");
+        final int numberOfThreads = 10;
+        final BigDecimal depositAmount = new BigDecimal("10.00");
 
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        CountDownLatch latch = new CountDownLatch(numberOfThreads);
+        final ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        final CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
         System.out.println("[Teste] Iniciando " + numberOfThreads + " threads para depósitos concorrentes...");
 
@@ -68,8 +68,8 @@ class WalletConcurrencyTest {
         latch.await();
         executorService.shutdown();
 
-        Wallet updated = walletRepository.findById(walletId).orElseThrow();
-        BigDecimal expected = depositAmount.multiply(BigDecimal.valueOf(numberOfThreads));
+        final Wallet updated = walletRepository.findById(walletId).orElseThrow();
+        final BigDecimal expected = depositAmount.multiply(BigDecimal.valueOf(numberOfThreads));
 
         System.out.println("[Teste] Todos depósitos finalizados. Saldo esperado: " + expected + " | Saldo atual: " + updated.getBalance());
 

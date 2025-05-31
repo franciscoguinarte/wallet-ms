@@ -27,24 +27,24 @@ public class WalletController {
     private final TransactionQueryService transactionQueryService;
 
     @PostMapping
-    public ResponseEntity<Wallet> createWallet(@RequestBody @Valid WalletRequest request) {
-        Wallet wallet = walletCommandService.createWallet(request);
+    public ResponseEntity<Wallet> createWallet(@RequestBody @Valid final WalletRequest request) {
+        final Wallet wallet = walletCommandService.createWallet(request);
         return ResponseEntity.ok(wallet);
     }
 
     @GetMapping("/{walletId}/balance")
-    public ResponseEntity<WalletBalanceResponse> getCurrentBalance(@PathVariable UUID walletId) {
-        WalletBalanceResponse response = walletQueryService.getCurrentBalance(walletId);
+    public ResponseEntity<WalletBalanceResponse> getCurrentBalance(@PathVariable final UUID walletId) {
+        final WalletBalanceResponse response = walletQueryService.getCurrentBalance(walletId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{walletId}/statement")
     public ResponseEntity<List<WalletHistoricalStatementResponse>> getBalanceBetween(
-            @PathVariable UUID walletId,
-            @RequestParam("min") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMin,
-            @RequestParam("max") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax) {
+            @PathVariable final UUID walletId,
+            @RequestParam("min") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime dateMin,
+            @RequestParam("max") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDateTime dateMax) {
 
-        List<WalletHistoricalStatementResponse> response = transactionQueryService.getTransactionStatement(
+        final List<WalletHistoricalStatementResponse> response = transactionQueryService.getTransactionStatement(
                 walletId,
                 dateMin,
                 dateMax
@@ -52,7 +52,6 @@ public class WalletController {
         if (response.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(response);
     }
 

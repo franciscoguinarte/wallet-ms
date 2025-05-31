@@ -4,9 +4,13 @@ import br.com.recargapay.walletservice.dto.out.TransactionResponse;
 import br.com.recargapay.walletservice.entity.Transaction;
 import br.com.recargapay.walletservice.enumeration.TransactionType;
 
-public class TransactionMapper {
+public final class TransactionMapper {
 
-    public static TransactionResponse toResponse(Transaction transaction) {
+    private TransactionMapper() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    }
+
+    public static TransactionResponse toResponse(final Transaction transaction) {
 
         return new TransactionResponse(
                 transaction.getId(),

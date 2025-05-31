@@ -24,20 +24,20 @@ public class TransactionController {
     private final TransactionCommandService transactionCommandService;
 
     @PostMapping("/deposit")
-    public ResponseEntity<TransactionResponse> deposit(@RequestBody @Valid DepositRequest request) {
-        Transaction transaction = transactionCommandService.deposit(request.sourceWalletId(), request.amount());
+    public ResponseEntity<TransactionResponse> deposit(@RequestBody @Valid final DepositRequest request) {
+        final Transaction transaction = transactionCommandService.deposit(request.sourceWalletId(), request.amount());
         return ResponseEntity.status(HttpStatus.CREATED).body(TransactionMapper.toResponse(transaction));
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<TransactionResponse> withdraw(@RequestBody @Valid WithdrawRequest request) {
-        Transaction transaction = transactionCommandService.withdraw(request.sourceWalletId(), request.amount());
+    public ResponseEntity<TransactionResponse> withdraw(@RequestBody @Valid final WithdrawRequest request) {
+        final Transaction transaction = transactionCommandService.withdraw(request.sourceWalletId(), request.amount());
         return ResponseEntity.status(HttpStatus.CREATED).body(TransactionMapper.toResponse(transaction));
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransactionResponse> transfer(@RequestBody @Valid TransferRequest request) {
-        Transaction transaction = transactionCommandService.transfer(request.destinationWalletId(), request.sourceWalletId(), request.amount());
+    public ResponseEntity<TransactionResponse> transfer(@RequestBody @Valid final TransferRequest request) {
+        final Transaction transaction = transactionCommandService.transfer(request.destinationWalletId(), request.sourceWalletId(), request.amount());
         return ResponseEntity.status(HttpStatus.CREATED).body(TransactionMapper.toResponse(transaction));
     }
 }
