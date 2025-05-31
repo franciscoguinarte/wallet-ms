@@ -9,12 +9,14 @@ import br.com.recargapay.walletservice.repository.TransactionRepository;
 import br.com.recargapay.walletservice.repository.WalletRepository;
 import br.com.recargapay.walletservice.service.factory.TransactionFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TransactionCommandService {
@@ -24,6 +26,7 @@ public class TransactionCommandService {
 
     @Transactional
     public Transaction deposit(UUID walletId, BigDecimal amount) {
+        log.info("Starting deposit...");
         Wallet wallet = walletRepository.findByIdWithLock(walletId)
                 .orElseThrow(() -> new WalletNotFoundException(walletId.toString()));
 
@@ -32,12 +35,15 @@ public class TransactionCommandService {
 
         Transaction deposit = TransactionFactory.createDeposit(wallet, amount, balanceAfter);
         transactionRepository.save(deposit);
+        log.info("Deposit was successful!");
 
         return deposit;
     }
 
     @Transactional
     public Transaction withdraw(UUID walletId, BigDecimal amount) {
+        log.info("Starting withdraw...");
+
         Wallet wallet = walletRepository.findByIdWithLock(walletId)
                 .orElseThrow(() -> new WalletNotFoundException(walletId.toString()));
 
@@ -50,12 +56,14 @@ public class TransactionCommandService {
 
         Transaction withdraw = TransactionFactory.createWithdraw(wallet, amount, balanceAfter);
         transactionRepository.save(withdraw);
+        log.info("Withdraw was successful!");
 
         return withdraw;
     }
 
     @Transactional
     public Transaction transfer(UUID toWalletId, UUID fromWalletId , BigDecimal amount) {
+        log.info("Starting transfer...");
         if (fromWalletId.equals(toWalletId)) {
             throw new InvalidTransferException("Cannot transfer to the same wallet");
         }
@@ -77,6 +85,7 @@ public class TransactionCommandService {
 
         Transaction transfer = TransactionFactory.createTransfer(source, destination, amount, sourceBalance);
         transactionRepository.save(transfer);
+        log.info("Transfer was successful!");
 
         return transfer;
     }
