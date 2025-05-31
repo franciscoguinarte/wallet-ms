@@ -44,13 +44,16 @@ public class WalletController {
             @RequestParam("min") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMin,
             @RequestParam("max") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateMax) {
 
-        List<WalletHistoricalStatementResponse> walletHistoricalStatementResponse = transactionQueryService.getTransactionStatement(
+        List<WalletHistoricalStatementResponse> response = transactionQueryService.getTransactionStatement(
                 walletId,
                 dateMin,
                 dateMax
         );
+        if (response.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
-        return ResponseEntity.ok(walletHistoricalStatementResponse);
+        return ResponseEntity.ok(response);
     }
 
 }
