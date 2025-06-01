@@ -82,9 +82,6 @@ These scripts will:
 2. Build the Docker image
 3. Start the application using Docker Compose
 
-After successful startup, access:
-
-- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 > ℹ️ If you're using Git Bash or WSL on Windows, prefer `run.sh`. For regular Command Prompt or PowerShell, use `run.cmd`.
 
@@ -97,6 +94,7 @@ cd wallet-ms/wallet-service
 ./mvnw spring-boot:run
 ```
 
+---
 
 ### Swagger UI
 
