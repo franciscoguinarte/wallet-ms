@@ -19,7 +19,6 @@ public final class WalletBalanceMapper {
                 : TransactionDirection.INCOMING;
 
         if (direction == TransactionDirection.OUTGOING && transaction.getType() == TransactionType.TRANSFER) {
-
             return new WalletHistoricalStatementResponse(
                     transaction.getSourceWallet().getId(),
                     transaction.getType(),
