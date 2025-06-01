@@ -1,6 +1,7 @@
 package br.com.recargapay.walletservice.entity;
 
 
+import br.com.recargapay.walletservice.enumeration.TransactionDirection;
 import br.com.recargapay.walletservice.enumeration.TransactionType;
 import jakarta.persistence.*;
 
@@ -26,6 +27,10 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TransactionDirection direction;
+
     @Column(nullable = false)
     private BigDecimal amount;
 
@@ -41,5 +46,8 @@ public class Transaction {
     private LocalDateTime timestamp;
 
     @Column(nullable = false)
-    private BigDecimal balanceAfter;
+    private BigDecimal balanceSourceAfter;
+
+    @Column
+    private BigDecimal balanceDestinationAfter;
 }

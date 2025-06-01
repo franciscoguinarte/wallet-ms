@@ -1,6 +1,7 @@
 package br.com.recargapay.walletservice.service.factory;
 
 import br.com.recargapay.walletservice.entity.Transaction;
+import br.com.recargapay.walletservice.enumeration.TransactionDirection;
 import br.com.recargapay.walletservice.enumeration.TransactionType;
 import br.com.recargapay.walletservice.entity.Wallet;
 
@@ -15,9 +16,10 @@ public final class TransactionFactory {
     public static Transaction createDeposit(final Wallet sourceWallet, final BigDecimal amount, final BigDecimal balanceAfter) {
         return Transaction.builder()
                 .type(TransactionType.DEPOSIT)
+                .direction(TransactionDirection.INCOMING)
                 .sourceWallet(sourceWallet)
                 .amount(amount)
-                .balanceAfter(balanceAfter)
+                .balanceSourceAfter(balanceAfter)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
@@ -25,21 +27,24 @@ public final class TransactionFactory {
     public static Transaction createWithdraw(final Wallet sourceWallet, final BigDecimal amount, final BigDecimal balanceAfter) {
         return Transaction.builder()
                 .type(TransactionType.WITHDRAWAL)
+                .direction(TransactionDirection.OUTGOING)
                 .sourceWallet(sourceWallet)
                 .amount(amount)
-                .balanceAfter(balanceAfter)
+                .balanceSourceAfter(balanceAfter)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
 
     public static Transaction createTransfer(final Wallet sourceWallet, final  Wallet destinationWallet,
-                                             final  BigDecimal amount, final  BigDecimal balanceAfter) {
+                                             final  BigDecimal amount) {
         return Transaction.builder()
                 .type(TransactionType.TRANSFER)
+                .direction(TransactionDirection.OUTGOING)
                 .sourceWallet(sourceWallet)
                 .destinationWallet(destinationWallet)
                 .amount(amount)
-                .balanceAfter(balanceAfter)
+                .balanceSourceAfter(sourceWallet.getBalance())
+                .balanceDestinationAfter(destinationWallet.getBalance())
                 .timestamp(LocalDateTime.now())
                 .build();
     }

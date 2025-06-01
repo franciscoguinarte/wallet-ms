@@ -11,7 +11,7 @@ public final class TransactionMapper {
     }
 
     public static TransactionResponse toResponse(final Transaction transaction) {
-
+//AQUI
         return new TransactionResponse(
                 transaction.getId(),
                 transaction.getSourceWallet().getId(),
@@ -21,7 +21,7 @@ public final class TransactionMapper {
                 transaction.getTimestamp(),
                 transaction.getType().name(),
                 transaction.getAmount(),
-                transaction.getBalanceAfter()
+                transaction.getBalanceSourceAfter()
 
         );
     }

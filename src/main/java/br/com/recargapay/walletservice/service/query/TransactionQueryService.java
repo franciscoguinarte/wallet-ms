@@ -25,7 +25,7 @@ public class TransactionQueryService {
         log.info("Searching for transaction statement...");
 
         final List<Transaction> transactions = transactionRepository.findAllByWalletIdAndTimestampBetween(walletId, from, to);
-        return transactions.stream().map(WalletBalanceMapper::toResponse).toList();
+        return transactions.stream().map(transaction -> WalletBalanceMapper.toResponse(transaction,walletId)).toList();
     }
 
 }

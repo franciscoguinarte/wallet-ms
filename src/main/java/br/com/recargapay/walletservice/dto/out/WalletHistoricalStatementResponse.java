@@ -2,6 +2,7 @@ package br.com.recargapay.walletservice.dto.out;
 
 
 
+import br.com.recargapay.walletservice.enumeration.TransactionDirection;
 import br.com.recargapay.walletservice.enumeration.TransactionType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -15,5 +16,6 @@ public record WalletHistoricalStatementResponse(
         BigDecimal amout,
         BigDecimal balance,
         LocalDateTime timestamp,
+        TransactionDirection direction,
         @JsonInclude(JsonInclude.Include.NON_NULL) UUID destinationWalletId
 ) {}

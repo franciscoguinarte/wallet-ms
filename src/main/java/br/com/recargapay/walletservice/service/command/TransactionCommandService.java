@@ -83,7 +83,7 @@ public class TransactionCommandService {
         source.setBalance(sourceBalance);
         destination.setBalance(destinationBalance);
 
-        final Transaction transfer = TransactionFactory.createTransfer(source, destination, amount, sourceBalance);
+        final Transaction transfer = TransactionFactory.createTransfer(source, destination, amount);
         transactionRepository.save(transfer);
         log.info("Transfer was successful!");
 
