@@ -1,14 +1,25 @@
-# Usa a imagem base com Java 21 (compatível com seu pom.xml)
+# Etapa 1: build com Maven
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+
+WORKDIR /app
+
+# Copia arquivos Maven
+COPY pom.xml .
+COPY src ./src
+
+# Compila o projeto e gera o .jar
+RUN mvn clean package -DskipTests
+
+# Etapa 2: imagem leve para executar o .jar
 FROM eclipse-temurin:21-jdk
 
-# Define o argumento com o caminho do JAR
-ARG JAR_FILE=target/wallet-service-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 
-# Copia o JAR para dentro da imagem
-COPY ${JAR_FILE} app.jar
+# Copia o .jar gerado da etapa anterior
+COPY --from=builder /app/target/wallet-service-0.0.1-SNAPSHOT.jar app.jar
 
-# Expõe a porta padrão da aplicação
+# Expõe a porta padrão do Spring Boot
 EXPOSE 8080
 
-# Comando de entrada para rodar o app
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Comando para rodar a aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]

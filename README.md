@@ -26,6 +26,7 @@ A microservice developed as part of a technical challenge to manage user wallets
 - Flyway
 - Swagger / OpenAPI
 - JUnit 5 + Mockito
+- Docker/Docker Compose
 
 ---
 
@@ -56,14 +57,46 @@ br.com.recargapay.walletservice
 ### Prerequisites
 
 - Java 21+
+- Docker
+- Docker compose
 
-### Run Locally
+---
+
+### 🐳 Running with Docker Compose (preferred)
+
+You can run the entire application with a single script:
+
+#### On Unix/Linux/macOS (bash):
+```bash
+./run.sh
+```
+
+#### On Windows (cmd):
+```cmd
+run.cmd
+```
+
+These scripts will:
+
+1. Clean and package the application (skipping tests)
+2. Build the Docker image
+3. Start the application using Docker Compose
+
+After successful startup, access:
+
+- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+> ℹ️ If you're using Git Bash or WSL on Windows, prefer `run.sh`. For regular Command Prompt or PowerShell, use `run.cmd`.
+
+---
+#### 🧰 Running with Maven (manual)
 
 ```bash
 git clone https://github.com/franciscoguinarte/wallet-ms.git
 cd wallet-ms/wallet-service
 ./mvnw spring-boot:run
 ```
+
 
 ### Swagger UI
 
